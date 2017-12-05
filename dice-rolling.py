@@ -9,10 +9,10 @@ def play_again(second_turn):
             user_choice = raw_input("Would you like one or two dice? ")
             user_choice = user_choice.lower()
             if user_choice == "one":
-                print d_one()
+                d_one()
                 asking = False
             elif user_choice == "two":
-                print d_two()
+                d_two()
                 asking = False
             else:
                 print "Answer invalid. Please choose either 'one' or 'two'."
@@ -58,10 +58,10 @@ def turn(y_or_n):
             user_choice = raw_input("Would you like one or two dice? ")
             user_choice = user_choice.lower()
             if user_choice == "one":
-                print d_one()
+                d_one()
                 asking = False
             elif user_choice == "two":
-                print d_two()
+                d_two()
                 asking = False
             else:
                 print "Answer invalid. Please choose either 'one' or 'two'."
