@@ -1,6 +1,8 @@
+# Mad libs game, takes user input and outputs a story
 print "Time to play Mad Libs!"
 print "Please answer the questions and wait for your generated story!"
 
+# Ensures a word is given, could potentially use a dictionary in a more complex version of the game to ensure real words are used
 asking = True
 while asking:
     ml_adjective = raw_input("Pick an adjective: ")

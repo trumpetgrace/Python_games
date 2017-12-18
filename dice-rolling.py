@@ -2,6 +2,8 @@ print "This is my dice roller."
 
 from random import randint
 
+
+# For use after first turn
 def play_again(second_turn):
     if second_turn == "yes":
         asking = True
@@ -19,11 +21,13 @@ def play_again(second_turn):
     elif second_turn == "no":
         print "Thanks for playing!"
 
+# Function for one die
 def d_one():
     one_d = randint(1, 7)
     print "*Dice Rolls*"
     print "The dice landed on " + str(one_d)
     asking = True
+    # Handles validity of input, redirects to play_again function
     while asking:
         second_turn = raw_input("Would you like to play again? ")
         second_turn = second_turn.lower()
@@ -33,6 +37,7 @@ def d_one():
         else:
             print "Answer invalid. Please choose either 'yes' or 'no'."
 
+# Function for two dice
 def d_two():
     one_d = randint(1, 7)
     two_d = randint(1, 7)
@@ -41,6 +46,7 @@ def d_two():
     print "The first dice landed on " + str(one_d)
     print "The second dice landed on " + str(two_d)
     print "Together, the total is " + str(total_d)
+    # Handles validity of input, redirects to play_again function
     asking = True
     while asking:
         second_turn = raw_input("Would you like to play again? ")
@@ -51,8 +57,9 @@ def d_two():
         else:
             print "Answer invalid. Please choose either 'yes' or 'no'."
 
-def turn(y_or_n):
-    if y_or_n == "yes":
+# Takes in decision from play, redirects to function chosen
+def turn(play):
+    if play == "yes":
         asking = True
         while asking:
             user_choice = raw_input("Would you like one or two dice? ")
@@ -69,12 +76,13 @@ def turn(y_or_n):
     elif y_or_n == "no":
         print "Fine. :("
 
+# Initial choice of yes/no for playing. Play differs from play_again which is used after first turn
 asking = True
 while asking:
-    y_or_n = raw_input("Would you like to play? ")
-    y_or_n = y_or_n.lower()
-    if y_or_n == "yes" or y_or_n == "no":
-        turn(y_or_n)
+    play = raw_input("Would you like to play? ")
+    play = play.lower()
+    if play == "yes" or play == "no":
+        turn(play)
         asking = False
     else:
         print "Answer invalid. Please choose either 'yes' or 'no'."

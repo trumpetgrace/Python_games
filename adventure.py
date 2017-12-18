@@ -1,3 +1,5 @@
+# Simple adventure game
+# Adventure map
 a_map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,], \
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "D", 0, 0, 0, 0, 0, 0, 0, 1], \
 [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1], \
@@ -14,6 +16,8 @@ a_map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1], \
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "E", 1, 1, 1, 1, 1]]
 
+# Defining variables for later use
+# rpx and rpy = shorthand for relativePositionX and relativePositionY
 rpx = 1
 rpy = 1
 a_door = True
@@ -21,12 +25,14 @@ a_gate = True
 a_vault = True
 a_tunnel = True
 
-
+# Door, gate, vault, tunnel, and end_game functions. When a letter is landed on, user is redirected to one of the below functions, then taken back to the game.
 def door(a_map, rpx, rpy, a_door):
+  # If function hasn't been run before
   if a_door == True:
     print "There is a door ahead of you.\n\n*There doesn't seem to be anywhere else you can go...\n\n*You try the handle... and nothing happens.*\n\n*You try again... and still nothing.*\n\n*You push against the door as hard as you can and it swings open, throwing you through*"
     return True
   else:
+    # If function has been run before
     print "*At closer inspection you see there is no handle on your side of the door.*"
     return False
 
@@ -62,7 +68,7 @@ def end_game():
   \n\n*You start walking*\n\n\n\n*You wake up in a dark corridor...*\n\n*All alone...*"
 
 
-
+# Print map fuction prints the 8 blocks around you at any given time
 def print_map(a_map, rpx, rpy):
   i = 0
   temp_str = ""
@@ -80,6 +86,8 @@ def print_map(a_map, rpx, rpy):
       temp_str = temp_str + '\n'
       i = i + 1
   print temp_str
+
+# Takes in a name for use at the nd of the game
 name = raw_input("What is your name? ")
 asking = True
 while asking:
@@ -88,16 +96,21 @@ while asking:
     else:
         asking = False
 
-
+# Initial scene set
 print "The Labyrinth\n\nOne day you were out walking...\n\nAnd woke up in a dark corridor... \n\nAll alone... \n\n  \n\n*You feel around you, trying to see if you can reach anything* \n\n*You can feel a cold metal object* \
  \n\n*You find a switch and press it* \n\n--You found a torch-- \n\nYou shine your torch around and wonder where you are... \n\nThere doesn't seem to be much around you, just an empty corridor... \n\nIt's a little creepy in here... \n\n*You decide to start moving, maybe you can find a way out*\n"
+print "[0 = path, 1 = wall, letters are for mysteries within the labrinyth...]"
 
+
+# Move function. Used throughout the game to progress through the map
 def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
     turn = 0
     asking = True
     while asking:
+        # User input for direction picked
         direction = raw_input("Pick a direction: ")
         direction = direction.lower()
+        # Story additions. Occur at intervals throughout the game, depending on turns and location (detected through functions that have been completed and not yet completed)
         if turn == 1 and a_door == True:
           print "*You have a bad feeling about this. It seems like the faster you can get out the better*"
         if turn == 3 and a_door == True:
@@ -132,27 +145,36 @@ def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
         if turn == 4 and a_vault == False and a_tunnel == True:
             print "The ceiling appears to be getting lower, you crouch down a little but stay on guard.*"
 
+        # Directions. Each takes in the possibliity of the surrounding blocks and dictates the action taken when landing on certain blocks
+        # Example below using 'w'
         if direction == "w":
+            # If statements for direction chosen. If the block is a 0 (therefore accessible), changes relative position to that block
             if a_map[rpy - 1][rpx] == 0:
                 rpy = rpy - 1
                 print_map(a_map, rpx, rpy)
                 turn = turn + 1
 
+            # If direction chosen is 1, gives error message (1 is a wall)
             elif a_map[rpy - 1][rpx] == 1:
                 print "There's a wall there, you can't go that way."
 
+            # Tunnel function
             elif a_map[rpy - 1][rpx] == "T":
+                # If function hasn't been used before, runs function
                 if tunnel(a_map, rpx, rpy, a_tunnel) == True:
                   a_tunnel = False
                   print "*The tunnel starts to close in. You wonder if you've made a horrible mistake.*\n*Just as you're about to turn back the tunnel begins to widen again*\n*You breathe a sigh of relief, starting to feel a little calmer* \
                   \n*The tunnel finishes, leading out into a small room*\n*You climb out and look around.*\n*Ahead is a door.*"
+                  # Changes position and prints map
                   rpy = rpy + 2
                   print_map(a_map, rpx, rpy)
+                  # Resets turns for storyline purposes
                   turn = 0
                 else:
                   print_map(a_map, rpx, rpy)
                   print "*You aren't sure that'll take you the right way... and it looks as though the door ahead might be relevant to this pointless game*"
 
+        # Continues with each possible direction
         elif direction == "a":
             if a_map[rpy][rpx - 1] == 0:
                 rpx = rpx - 1
@@ -162,6 +184,7 @@ def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
             elif a_map[rpy][rpx - 1] == 1:
                 print "There's a wall there, you can't go that way."
 
+            # Door function
             elif a_map[rpy][rpx - 1] == "D":
                 if door(a_map, rpx, rpy, a_door) == True:
                   a_door=False
@@ -173,6 +196,7 @@ def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
                   print_map(a_map, rpx, rpy)
                   print "Best keep walking then..."
 
+            # Gate function
             elif a_map[rpy][rpx - 1] == "G":
                 if gate(a_map, rpx, rpy, a_gate) == True:
                   a_gate = False
@@ -185,6 +209,7 @@ def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
                   print_map(a_map, rpx, rpy)
                   print "*Onwards, you go.*"
 
+            # Vault function
             elif a_map[rpy][rpx -1] == "V":
                 if vault(a_map, rpx, rpy, a_vault) == True:
                   a_vault = False
@@ -205,6 +230,7 @@ def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
             elif a_map[rpy + 1][rpx] == 1:
                 print "There's a wall there, you can't go that way."
 
+            # End of game function
             elif a_map[rpy + 1][rpx] == "E":
                 end_game()
                 break
@@ -264,12 +290,13 @@ def move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel):
                   print_map(a_map, rpx, rpy)
                   print "You continue your journey."
 
+        # Deals with invalid input
         else:
             print "Invalid direction. You must choose 'w', 'a', 's', or 'd'."
 
 
 
 
-
+# Starts the functions
 print_map(a_map, rpx, rpy)
 move(rpx, rpy,a_door, a_gate, a_vault, a_tunnel)
