@@ -101,7 +101,7 @@ def spin(asking, colours, mc):
                 else:
                     mc.money -= 1
                     mc.machine_float += 1
-                    
+
                 prize(asking, colours, slot_1, slot_2, slot_3, slot_4, mc)
             elif mc.money < 1 and mc.free_spins == 0:
                 print "Not Enough Cash"
